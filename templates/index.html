@@ -2,14 +2,31 @@
 <html>
 <head>
     <title>Index</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <form method="POST">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-        <input type="submit" value="Submit">
+    <form id="password-form" method="POST">
+        <input type="password" name="password" required>
+        <input type="submit" value="Submit Password">
     </form>
+    <form id="name-form" method="POST" style="display: none;">
+        <input type="text" name="name" required>
+        <input type="submit" value="Update List">
+    </form>
+    <script>
+    $(document).ready(function(){
+        $('#password-form').on('submit', function(e){
+            e.preventDefault();
+            $.post('/', $(this).serialize(), function(data){
+                if (data.password_correct) {
+                    $('#password-form').hide();
+                    $('#name-form').show();
+                } else {
+                    alert('Incorrect password. Please try again.');
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>

@@ -19,7 +19,9 @@ update_password()
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        if request.form['password'] == password:
+        if 'password' in request.form:
+            return jsonify({'password_correct': request.form['password'] == password})
+        elif 'name' in request.form and request.form['name']:
             with open('list.json', 'r+') as f:
                 data = json.load(f)
                 data.append(request.form['name'])
