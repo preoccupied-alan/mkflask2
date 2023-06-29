@@ -3,7 +3,6 @@
 <head>
     <title>Secure Pass Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-</head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -12,9 +11,7 @@
     <script>
     $(document).ready(function(){
         setInterval(function(){
-            $.getJSON('/securepasspage', function(data){
-                $('#password').text(data.password);
-            });
+            location.reload();
         }, 60000);
     });
     </script>
