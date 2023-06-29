@@ -2,8 +2,11 @@
 <html>
 <head>
     <title>Member</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
 </head>
 <body>
+    <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <table>
         {% for name in data %}
         <tr>

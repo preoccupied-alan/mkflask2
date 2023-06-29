@@ -2,9 +2,12 @@
 <html>
 <head>
     <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+    <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <form id="password-form" method="POST">
         <input type="password" name="password" required>
         <input type="submit" value="Submit Password">
