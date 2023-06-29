@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Admin</title>
+</head>
+<body>
+    <form method="POST">
+        <input type="hidden" name="action" value="randomize">
+        <input type="submit" value="Randomize List">
+    </form>
+    <form method="POST">
+        <input type="hidden" name="action" value="clear">
+        <input type="submit" value="Clear List">
+    </form>
+    <table>
+        {% for name in data %}
+        <tr>
+            <td>{{ name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
