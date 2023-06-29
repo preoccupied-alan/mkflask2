@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Pass Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <p id="password"></p>
+    <script>
+    $(document).ready(function(){
+        setInterval(function(){
+            $.getJSON('/securepasspage', function(data){
+                $('#password').text(data.password);
+            });
+        }, 60000);
+    });
+    </script>
+</body>
+</html>
