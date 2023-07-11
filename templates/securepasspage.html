@@ -3,17 +3,21 @@
 <head>
     <title>Secure Pass Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-    <p id="password">{{ password }}</p>
+    <p id="password"></p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
-            setInterval(function(){
-                location.reload();
-            }, 60000);
-        });
+    $(document).ready(function(){
+        function updatePassword() {
+            $.getJSON('/securepasspage', function(data){
+                $('#password').text(data.password);
+                setTimeout(updatePassword, 60000); // Refresh every 60 seconds
+            });
+        }
+        updatePassword();
+    });
     </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
 </body>
