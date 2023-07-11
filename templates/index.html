@@ -7,7 +7,7 @@
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     
-    {% if password_field %}
+    {% if not password_correct and not password_incorrect %}
     <form id="password-form" method="POST">
         <input type="password" name="password" required>
         <input type="submit" value="Submit Password">
@@ -35,8 +35,12 @@
             $('#password-form').on('submit', function(e){
                 e.preventDefault();
                 $.post('/', $(this).serialize(), function(data){
-                    $('#password-form').hide();
-                    $('#name-form').show();
+                    if (data.password_correct) {
+                        $('#password-form').hide();
+                        $('#name-form').show();
+                    } else {
+                        $('.error-message').show();
+                    }
                 });
             });
         });
