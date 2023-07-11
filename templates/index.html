@@ -6,44 +6,30 @@
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-    
-    {% if not password_correct and not password_incorrect %}
     <form id="password-form" method="POST">
         <input type="password" name="password" required>
         <input type="submit" value="Submit Password">
+        <p class="error-message" style="display: none; color: red;">Incorrect password. Please try again.</p>
     </form>
-    {% endif %}
-
-    {% if password_correct %}
-    <form id="name-form" method="POST">
+    <form id="name-form" method="POST" style="display: none;">
         <input type="text" name="name" required>
         <input type="submit" value="Update List">
     </form>
-    {% endif %}
-
-    {% if password_incorrect %}
-    <p class="error-message">Incorrect password. Please try again.</p>
-    <form id="password-form" method="POST">
-        <input type="password" name="password" required>
-        <input type="submit" value="Submit Password">
-    </form>
-    {% endif %}
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $('#password-form').on('submit', function(e){
-                e.preventDefault();
-                $.post('/', $(this).serialize(), function(data){
-                    if (data.password_correct) {
-                        $('#password-form').hide();
-                        $('#name-form').show();
-                    } else {
-                        $('.error-message').show();
-                    }
-                });
+    $(document).ready(function(){
+        $('#password-form').on('submit', function(e){
+            e.preventDefault();
+            $.post('/', $(this).serialize(), function(data){
+                if (data.password_correct) {
+                    $('#password-form').hide();
+                    $('#name-form').show();
+                } else {
+                    $('.error-message').css('display', 'block');
+                }
             });
         });
+    });
     </script>
 </body>
 </html>
