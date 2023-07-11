@@ -5,38 +5,37 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <form id="password-form" method="POST">
-            <input type="password" name="password" id="password" required>
-            <input type="submit" value="Submit Password">
-        </form>
-        <form id="name-form" method="POST" style="display: none;">
-            <input type="text" name="name" required>
-            <input type="submit" value="Update List">
-        </form>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    <form id="password-form" method="POST">
+        <input type="password" name="password" id="password-input" required>
+        <input type="submit" value="Submit Password">
+    </form>
+    <form id="name-form" method="POST" style="display: none;">
+        <input type="text" name="name" required>
+        <input type="submit" value="Update List">
+    </form>
     <script>
-    $(document).ready(function(){
-        setInterval(function(){
-            $.getJSON('/securepasspage', function(data){
-                $('#password').val(data.password);
-            });
-        }, 1000); // Adjust the interval (in milliseconds) as per your requirement
+        $(document).ready(function(){
+            $('#password-input').val('');
 
-        $('#password-form').on('submit', function(e){
-            e.preventDefault();
-            $.post('/', $(this).serialize(), function(data){
-                if (data.password_correct) {
-                    $('#password-form').hide();
-                    $('#name-form').show();
-                } else {
-                    alert('Incorrect password. Please try again.');
-                }
+            $('#password-form').on('submit', function(e){
+                e.preventDefault();
+                $.post('/', $(this).serialize(), function(data){
+                    if (data.password_correct) {
+                        $('#password-form').hide();
+                        $('#name-form').show();
+                    } else {
+                        alert('Incorrect password. Please try again.');
+                    }
+                });
             });
+
+            setInterval(function(){
+                $.getJSON('/securepasspage', function(data){
+                    $('#password-input').val('');
+                });
+            }, 60000);
         });
-    });
     </script>
 </body>
 </html>
