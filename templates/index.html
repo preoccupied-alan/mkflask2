@@ -4,20 +4,25 @@
     <title>Index</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <form id="password-form" method="POST">
-        <input type="password" name="password" required>
+        <input type="password" name="password" id="password" required>
         <input type="submit" value="Submit Password">
     </form>
     <form id="name-form" method="POST" style="display: none;">
         <input type="text" name="name" required>
         <input type="submit" value="Update List">
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
+        setInterval(function(){
+            $.getJSON('/securepasspage', function(data){
+                $('#password').val(data.password);
+            });
+        }, 1000); // Adjust the interval (in milliseconds) as per your requirement
+
         $('#password-form').on('submit', function(e){
             e.preventDefault();
             $.post('/', $(this).serialize(), function(data){

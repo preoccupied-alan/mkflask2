@@ -11,7 +11,9 @@
     <script>
     $(document).ready(function(){
         setInterval(function(){
-            location.reload();
+            $.getJSON('/securepasspage', function(data){
+                $('#password').text(data.password);
+            });
         }, 60000);
     });
     </script>

@@ -32,7 +32,7 @@ def index():
 
 @app.route('/securepasspage')
 def securepasspage():
-    return render_template('securepasspage.html', password=password)
+    return jsonify(password=password)
 
 @app.route('/member')
 def member():
