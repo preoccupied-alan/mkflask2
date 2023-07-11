@@ -32,7 +32,10 @@ def index():
 
 @app.route('/securepasspage')
 def securepasspage():
-    return jsonify(password=password)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'password': password})
+    else:
+        return render_template('securepasspage.html', password=password)
 
 @app.route('/member')
 def member():
