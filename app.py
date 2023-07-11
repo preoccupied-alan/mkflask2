@@ -32,7 +32,8 @@ def index():
                 f.seek(0)
                 json.dump(data, f)
             return redirect(url_for('member'))
-    return render_template('index.html')
+    return render_template('index.html', password_field=True)
+
 
 
 @app.route('/securepasspage')
