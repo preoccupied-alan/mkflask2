@@ -6,14 +6,16 @@
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-    <form id="password-form" method="POST">
-        <input type="password" name="password" id="password-input" required>
-        <input type="submit" value="Submit Password">
-    </form>
-    <form id="name-form" method="POST" style="display: none;">
-        <input type="text" name="name" required>
-        <input type="submit" value="Update List">
-    </form>
+    <div id="password-container">
+        <form id="password-form" method="POST">
+            <input type="password" name="password" id="password-input" required>
+            <input type="submit" value="Submit Password">
+        </form>
+        <form id="name-form" method="POST" style="display: none;">
+            <input type="text" name="name" required>
+            <input type="submit" value="Update List">
+        </form>
+    </div>
     <script>
         $(document).ready(function(){
             $('#password-input').val('');
@@ -22,7 +24,7 @@
                 e.preventDefault();
                 $.post('/', $(this).serialize(), function(data){
                     if (data.password_correct) {
-                        $('#password-form').hide();
+                        $('#password-container').hide();
                         $('#name-form').show();
                     } else {
                         alert('Incorrect password. Please try again.');

@@ -3,22 +3,18 @@
 <head>
     <title>Secure Pass Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <p id="password">{{ password }}</p>
-        <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    <p id="password">{{ password }}</p>
     <script>
-    $(document).ready(function(){
-        setInterval(function(){
-            $.getJSON('/securepasspage', function(data){
-                $('#password').text(data.password);
-            });
-        }, 1000); // Adjust the interval (in milliseconds) as per your requirement
-    });
+        $(document).ready(function(){
+            setInterval(function(){
+                location.reload();
+            }, 60000);
+        });
     </script>
+    <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
 </body>
 </html>
