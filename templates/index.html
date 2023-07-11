@@ -23,9 +23,6 @@
                 if (data.password_correct) {
                     $('#password-form').hide();
                     $('#name-form').show();
-                    $.getJSON('/securepasspage', function(data){
-                        $('#password').text(data.password);
-                    });
                 } else {
                     alert('Incorrect password. Please try again.');
                 }
