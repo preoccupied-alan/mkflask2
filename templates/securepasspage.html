@@ -14,7 +14,7 @@
             $.getJSON('/update_password', function(data){
                 $('#password').text(data.password);
             });
-        }, 10000); // Update every 10 seconds
+        }, 60000); // Update every 10 seconds
     });
     </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
