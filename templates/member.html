@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Member</title>
+    <title>Performer List</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body class="container">
     <div class="container">
         <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        <p>Thanks for signing up! Here are all of tonight's acts.</p>
         <table>
             {% for name in data %}
             <tr>
