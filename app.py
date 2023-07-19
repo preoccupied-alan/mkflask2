@@ -34,10 +34,6 @@ def index():
 def securepasspage():
     return render_template('securepasspage.html', password=password)
 
-@app.route('/update_password')
-def update_password_route():
-    return jsonify({'password': password})
-
 @app.route('/member')
 def member():
     with open('list.json', 'r') as f:
@@ -53,9 +49,6 @@ def secureadmin():
                 random.shuffle(data)
                 f.seek(0)
                 json.dump(data, f)
-        elif request.form['action'] == 'clear':
-            with open('list.json', 'w') as f:
-                json.dump([], f)
     with open('list.json', 'r') as f:
         data = json.load(f)
     return render_template('secureadmin.html', data=data)
