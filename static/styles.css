@@ -30,3 +30,9 @@ body {
     color: #ffaf00; /* Orange color */
   }
   
+  .attendance-checkbox {
+    margin: 0 auto;
+    display: block;
+  }
+  
+  
