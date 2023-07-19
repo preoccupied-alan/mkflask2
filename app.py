@@ -42,5 +42,11 @@ def member():
         data = json.load(f)
     return render_template('member.html', data=data)
 
+@app.route('/secureadmin', methods=['GET', 'POST'])
+def secureadmin():
+    with open('list.json', 'r') as f:
+        data = json.load(f)
+    return render_template('secureadmin.html', data=data)
+
 if __name__ == '__main__':
     app.run(debug=True)
