@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Secure Admin</title>
+    <title>Shawn's Admin Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <table>
         <tr>
             <th>Name</th>
-            <th>Attendance</th> <!-- Extra column -->
+            <th>Has gone?</th> <!-- Extra column -->
         </tr>
         {% for name in data %}
         <tr>
