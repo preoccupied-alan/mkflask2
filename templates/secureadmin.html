@@ -8,12 +8,6 @@
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <h1>Secure Admin</h1>
 
-    <!-- Password verification -->
-    <form id="password-form" method="POST">
-        <input type="password" name="password" required>
-        <input type="submit" value="Verify Password">
-    </form>
-
     <!-- Table with an extra column for checkboxes -->
     <table>
         <tr>
@@ -31,15 +25,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
-        $('#password-form').on('submit', function(e){
-            e.preventDefault();
-            var password = $(this).find('input[name="password"]').val();
-            if (password === 'shawn') {
-                $('.attendance-checkbox').prop('disabled', false);
-            } else {
-                alert('Incorrect password. Please try again.');
-            }
-        });
+        // Enable checkboxes for attendance
+        $('.attendance-checkbox').prop('disabled', false);
     });
     </script>
 </body>
