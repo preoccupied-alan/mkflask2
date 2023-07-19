@@ -49,9 +49,11 @@ def secureadmin():
                 random.shuffle(data)
                 f.seek(0)
                 json.dump(data, f)
+                f.truncate()
     with open('list.json', 'r') as f:
         data = json.load(f)
     return render_template('secureadmin.html', data=data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
