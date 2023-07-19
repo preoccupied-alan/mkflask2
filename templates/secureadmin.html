@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shawn's Admin Page</title>
+    <title>Secure Admin</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <h1>Secure Admin</h1>
 
+    <!-- Randomize button -->
+    <button id="randomize-btn">Randomize Order</button>
+
     <!-- Table with an extra column for checkboxes -->
     <table>
         <tr>
             <th>Name</th>
-            <th>Has gone?</th> <!-- Extra column -->
+            <th>Attendance</th> <!-- Extra column -->
         </tr>
         {% for name in data %}
         <tr>
@@ -27,6 +30,14 @@
     $(document).ready(function(){
         // Enable checkboxes for attendance
         $('.attendance-checkbox').prop('disabled', false);
+
+        // Randomize button click event
+        $('#randomize-btn').click(function() {
+            $.post('/randomize', function() {
+                // Reload the table
+                location.reload();
+            });
+        });
     });
     </script>
 </body>
