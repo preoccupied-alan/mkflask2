@@ -20,7 +20,11 @@ update_password()
 def index():
     if request.method == 'POST':
         if 'password' in request.form:
-            return jsonify({'password_correct': request.form['password'] == password})
+            password_attempt = request.form['password']
+            if password_attempt == password:
+                return jsonify({'password_correct': True})
+            else:
+                return jsonify({'password_correct': False})
         elif 'name' in request.form and request.form['name']:
             with open('list.json', 'r+') as f:
                 data = json.load(f)
@@ -34,6 +38,7 @@ def index():
                 json.dump(data, f)
             return redirect(url_for('member'))
     return render_template('index.html')
+
 
 
 @app.route('/securepasspage')
