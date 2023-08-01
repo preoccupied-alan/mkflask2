@@ -16,8 +16,12 @@
             });
         }
 
-        updatePassword();
-        setInterval(updatePassword, 60000);
+        function autoRefresh() {
+            setInterval(updatePassword, 60000);
+        }
+
+        // Wait for 5 seconds before starting the auto-refresh to allow time for initial page load
+        setTimeout(autoRefresh, 5000);
     });
     </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
