@@ -38,7 +38,7 @@ def index():
 @app.route('/securepasspage')
 def securepasspage():
     global password
-    return jsonify({'password': password})
+    return render_template('securepasspage.html', password=password)
 
 @app.route('/member')
 def member():
