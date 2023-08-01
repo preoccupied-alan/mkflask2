@@ -16,28 +16,28 @@ def update_password():
 
 update_password()
 
+def sort_list_by_ideal_spot(data):
+    return sorted(data, key=lambda x: (x.get('ideal_spot', float('inf')), x.get('time_added', 0)))
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global password
     if request.method == 'POST':
         if 'password' in request.form:
             return jsonify({'password_correct': request.form['password'] == password})
         elif 'name' in request.form and request.form['name']:
-            with open('list.json', 'r') as f:
+            name = request.form['name']
+            ideal_spot = request.form['ideal_spot']
+            with open('list.json', 'r+') as f:
                 data = json.load(f)
-                data.append({
-                    'name': request.form['name'],
-                    'ideal_spot': int(request.form['ideal_spot']),
-                    'attended': False
-                })
-            with open('list.json', 'w') as f:
+                data.append({"name": name, "ideal_spot": int(ideal_spot), "time_added": len(data)})
+                data = sort_list_by_ideal_spot(data)
+                f.seek(0)
                 json.dump(data, f)
             return redirect(url_for('member'))
     return render_template('index.html')
 
 @app.route('/securepasspage')
 def securepasspage():
-    global password
     return render_template('securepasspage.html', password=password)
 
 @app.route('/member')
@@ -50,11 +50,14 @@ def member():
 def secureadmin():
     if request.method == 'POST':
         if request.form['action'] == 'randomize':
-            with open('list.json', 'r') as f:
+            with open('list.json', 'r+') as f:
                 data = json.load(f)
                 random.shuffle(data)
-            with open('list.json', 'w') as f:
+                f.seek(0)
                 json.dump(data, f)
+        elif request.form['action'] == 'clear':
+            with open('list.json', 'w') as f:
+                json.dump([], f)
     with open('list.json', 'r') as f:
         data = json.load(f)
     return render_template('secureadmin.html', data=data)
