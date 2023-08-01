@@ -36,9 +36,12 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/securepasspage')
+@app.route('/securepasspage', methods=['GET', 'POST'])
 def securepasspage():
-    return render_template('securepasspage.html', password=password)
+    if request.method == 'GET':
+        return render_template('securepasspage.html', password=password)
+    elif request.method == 'POST':
+        return password
 
 @app.route('/member')
 def member():

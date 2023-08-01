@@ -7,15 +7,14 @@
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-    <h1 id="password"></h1>
+    <h1 id="password">{{ password }}</h1>
     <script>
     $(document).ready(function(){
         function updatePassword() {
-            $.getJSON('/securepasspage', function(data){
-                $('#password').text(data.password);
+            $.get('/securepasspage', function(data){
+                $('#password').text(data);
             }).fail(function() {
-                $('#password').text(''); // Clear the password field on error
-                alert('Failed to retrieve the password. Please try again later.');
+                $('#password').text("Failed to retrieve the password. Please try again later.");
             });
         }
 
@@ -24,14 +23,5 @@
     });
     </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
-    <script>
-        $(document).ready(function(){
-            function autoRefresh() {
-                location.reload();
-            }
-
-            setInterval(autoRefresh, 60000); // Auto-refresh every 60 seconds
-        });
-    </script>
 </body>
 </html>
