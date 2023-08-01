@@ -18,7 +18,7 @@
     <script>
     $(document).ready(function(){
         $('#password-form').on('submit', function(e){
-            e.preventDefault();
+            e.preventDefault(); // Prevent default form submission
             $.post('/', $(this).serialize(), function(data){
                 if (data.password_correct) {
                     $('#password-form').hide();
@@ -26,6 +26,8 @@
                 } else {
                     alert('Incorrect password. Please try again.');
                 }
+            }).fail(function() {
+                alert('An error occurred. Please try again later.');
             });
         });
     });
