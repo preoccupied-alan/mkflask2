@@ -3,6 +3,7 @@ import json
 import random
 import string
 from threading import Timer
+import os
 
 app = Flask(__name__)
 
@@ -27,7 +28,10 @@ def index():
                 return jsonify({'password_correct': False})
         elif 'name' in request.form and request.form['name']:
             with open('list.json', 'r+') as f:
-                data = json.load(f)
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError:
+                    data = []
                 new_member = {
                     'name': request.form['name'],
                     'spot': int(request.form['spot'])
@@ -38,7 +42,6 @@ def index():
                 json.dump(data, f)
             return redirect(url_for('member'))
     return render_template('index.html')
-
 
 @app.route('/securepasspage')
 def securepasspage():
