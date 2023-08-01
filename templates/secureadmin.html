@@ -1,4 +1,3 @@
-<!-- secureadmin.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +16,7 @@
         <tr>
             <td>{{ entry.name }}</td>
             <td>{{ entry.ideal_spot }}</td>
-            <td><input type="checkbox" {% if entry.attended %}checked{% endif %} onclick="return false;"></td>
+            <td><input type="checkbox" {% if entry.attended %}checked{% endif %} disabled></td>
         </tr>
         {% endfor %}
     </table>
