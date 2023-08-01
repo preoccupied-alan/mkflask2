@@ -3,7 +3,6 @@ import json
 import random
 import string
 from threading import Timer
-import os
 
 app = Flask(__name__)
 
@@ -21,25 +20,13 @@ update_password()
 def index():
     if request.method == 'POST':
         if 'password' in request.form:
-            password_attempt = request.form['password']
-            if password_attempt == password:
-                return jsonify({'password_correct': True})
-            else:
-                return jsonify({'password_correct': False})
-        elif 'name' in request.form and request.form['name'] and 'spot' in request.form and request.form['spot']:
-            try:
-                spot = int(request.form['spot'])
-            except ValueError:
-                return "Invalid spot value. Please enter a valid integer."
-            
+            return jsonify({'password_correct': request.form['password'] == password})
+        elif 'name' in request.form and request.form['name']:
             with open('list.json', 'r+') as f:
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError:
-                    data = []
+                data = json.load(f)
                 new_member = {
                     'name': request.form['name'],
-                    'spot': spot
+                    'spot': int(request.form['spot'])
                 }
                 data.append(new_member)
                 data.sort(key=lambda x: (x['spot'], data.index(x)))  # Sort by spot and original order
@@ -48,9 +35,10 @@ def index():
             return redirect(url_for('member'))
     return render_template('index.html')
 
+
 @app.route('/securepasspage')
 def securepasspage():
-    return render_template('securepasspage.html', password=password)
+    return jsonify({'password': password})
 
 @app.route('/member')
 def member():
