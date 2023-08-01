@@ -9,28 +9,28 @@ app = Flask(__name__)
 # The password that allows access to the name submission form
 password = ''.join(random.choice(string.ascii_lowercase) for i in range(6))
 
+# Shared password variable accessed by both securepasspage and index.html
+shared_password = password
+
 def update_password():
-    global password
+    global password, shared_password
     password = ''.join(random.choice(string.ascii_lowercase) for i in range(6))
+    shared_password = password  # Update the shared password
     Timer(60, update_password).start()
 
 update_password()
 
-def sort_list_by_ideal_spot(data):
-    return sorted(data, key=lambda x: (x.get('ideal_spot', float('inf')), x.get('time_added', 0)))
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global shared_password  # Use the shared password variable
     if request.method == 'POST':
         if 'password' in request.form:
-            return jsonify({'password_correct': request.form['password'] == password})
+            return jsonify({'password_correct': request.form['password'] == shared_password})
         elif 'name' in request.form and request.form['name']:
-            name = request.form['name']
-            ideal_spot = request.form['ideal_spot']
             with open('list.json', 'r+') as f:
                 data = json.load(f)
-                data.append({"name": name, "ideal_spot": int(ideal_spot), "time_added": len(data)})
-                data = sort_list_by_ideal_spot(data)
+                data.append({'name': request.form['name'], 'ideal_spot': request.form['ideal_spot']})
+                data.sort(key=lambda x: (x['ideal_spot'], data.index(x)))  # Sort by ideal_spot and insertion order
                 f.seek(0)
                 json.dump(data, f)
             return redirect(url_for('member'))
@@ -38,7 +38,8 @@ def index():
 
 @app.route('/securepasspage')
 def securepasspage():
-    return render_template('securepasspage.html', password=password)
+    global shared_password  # Use the shared password variable
+    return render_template('securepasspage.html', password=shared_password)
 
 @app.route('/member')
 def member():
@@ -48,16 +49,6 @@ def member():
 
 @app.route('/secureadmin', methods=['GET', 'POST'])
 def secureadmin():
-    if request.method == 'POST':
-        if request.form['action'] == 'randomize':
-            with open('list.json', 'r+') as f:
-                data = json.load(f)
-                random.shuffle(data)
-                f.seek(0)
-                json.dump(data, f)
-        elif request.form['action'] == 'clear':
-            with open('list.json', 'w') as f:
-                json.dump([], f)
     with open('list.json', 'r') as f:
         data = json.load(f)
     return render_template('secureadmin.html', data=data)
