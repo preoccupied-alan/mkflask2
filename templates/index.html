@@ -4,35 +4,31 @@
     <title>Index</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body style="background-color: black; color: white; text-align: center;">
+<body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <form id="password-form" method="POST">
-        <h1>Password:</h1>
         <input type="password" name="password" required>
         <input type="submit" value="Submit Password">
     </form>
     <form id="name-form" method="POST" style="display: none;">
-        <h1>Enter Name:</h1>
         <input type="text" name="name" required>
-        <h1>Enter Ideal Spot:</h1>
-        <input type="number" name="ideal_spot" required>
+        <input type="text" name="spot" required>
         <input type="submit" value="Update List">
     </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $('#password-form').on('submit', function(e){
-                e.preventDefault();
-                $.post('/', $(this).serialize(), function(data){
-                    if (data.password_correct) {
-                        $('#password-form').hide();
-                        $('#name-form').show();
-                    } else {
-                        alert('Incorrect password. Please try again.');
-                    }
-                });
+    $(document).ready(function(){
+        $('#password-form').on('submit', function(e){
+            e.preventDefault();
+            $.post('/', $(this).serialize(), function(data){
+                if (data.password_correct) {
+                    $('#password-form').hide();
+                    $('#name-form').show();
+                } else {
+                    alert('Incorrect password. Please try again.');
+                }
             });
         });
+    });
     </script>
 </body>
 </html>

@@ -18,21 +18,23 @@ update_password()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global password
     if request.method == 'POST':
         if 'password' in request.form:
             return jsonify({'password_correct': request.form['password'] == password})
         elif 'name' in request.form and request.form['name']:
-            name = request.form['name']
-            ideal_spot = request.form['spot']
             with open('list.json', 'r+') as f:
                 data = json.load(f)
-                data.append({'name': name, 'spot': int(ideal_spot)})
-                data = sorted(data, key=lambda x: (x['spot'], data.index(x)))
+                new_member = {
+                    'name': request.form['name'],
+                    'spot': int(request.form['spot'])
+                }
+                data.append(new_member)
+                data.sort(key=lambda x: (x['spot'], data.index(x)))  # Sort by spot and original order
                 f.seek(0)
                 json.dump(data, f)
             return redirect(url_for('member'))
-    return render_template('index.html', password=password)
+    return render_template('index.html')
+
 
 @app.route('/securepasspage')
 def securepasspage():
