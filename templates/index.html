@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,29 +8,28 @@
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <form id="password-form" method="POST">
-        <input type="password" name="password" required placeholder="Enter Password">
+        <input type="password" name="password" required>
         <input type="submit" value="Submit Password">
     </form>
     <form id="name-form" method="POST" style="display: none;">
-        <input type="text" name="name" required placeholder="Enter Name">
-        <input type="text" name="ideal_spot" required placeholder="Enter Ideal Spot">
+        <input type="text" name="name" required>
+        <input type="number" name="ideal_spot" required>
         <input type="submit" value="Update List">
     </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $('#password-form').on('submit', function(e){
-                e.preventDefault();
-                $.post('/', $(this).serialize(), function(data){
-                    if (data.password_correct) {
-                        $('#password-form').hide();
-                        $('#name-form').show();
-                    } else {
-                        alert('Incorrect password. Please try again.');
-                    }
-                });
+    $(document).ready(function(){
+        $('#password-form').on('submit', function(e){
+            e.preventDefault();
+            $.post('/', $(this).serialize(), function(data){
+                if (data.password_correct) {
+                    $('#password-form').hide();
+                    $('#name-form').show();
+                } else {
+                    alert('Incorrect password. Please try again.');
+                }
             });
         });
+    });
     </script>
 </body>
 </html>
