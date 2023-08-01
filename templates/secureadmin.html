@@ -12,14 +12,12 @@
             <th>Name</th>
             <th>Ideal Spot</th>
             <th>Attended</th>
-            <th>Randomize</th>
         </tr>
         {% for entry in data %}
         <tr>
             <td>{{ entry.name }}</td>
             <td>{{ entry.ideal_spot }}</td>
-            <td>{{ entry.attended }}</td>
-            <td><input type="checkbox" onclick="return false;"></td>
+            <td><input type="checkbox" {% if entry.attended %}checked{% endif %} onclick="return false;"></td>
         </tr>
         {% endfor %}
     </table>
