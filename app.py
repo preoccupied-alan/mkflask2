@@ -22,15 +22,17 @@ def index():
         if 'password' in request.form:
             return jsonify({'password_correct': request.form['password'] == password})
         elif 'name' in request.form and request.form['name']:
-            name = request.form['name']
-            ideal_spot = request.form['ideal_spot']
             with open('list.json', 'r+') as f:
                 data = json.load(f)
-                data.append({'name': name, 'ideal_spot': ideal_spot})
+                data.append({"name": request.form['name'], "ideal_spot": request.form['ideal_spot']})
                 f.seek(0)
                 json.dump(data, f)
             return redirect(url_for('member'))
     return render_template('index.html')
+
+@app.route('/get_password')
+def get_password():
+    return jsonify({'password': password})
 
 @app.route('/securepasspage')
 def securepasspage():
@@ -44,6 +46,16 @@ def member():
 
 @app.route('/secureadmin', methods=['GET', 'POST'])
 def secureadmin():
+    if request.method == 'POST':
+        if request.form['action'] == 'randomize':
+            with open('list.json', 'r+') as f:
+                data = json.load(f)
+                random.shuffle(data)
+                f.seek(0)
+                json.dump(data, f)
+        elif request.form['action'] == 'clear':
+            with open('list.json', 'w') as f:
+                json.dump([], f)
     with open('list.json', 'r') as f:
         data = json.load(f)
     return render_template('secureadmin.html', data=data)

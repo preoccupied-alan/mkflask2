@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Performer List</title>
+    <title>Member</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body class="container">
-    <div class="container">
-        <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <p>Thanks for signing up! Here are all of tonight's acts.</p>
-        <table>
-            {% for name in data %}
-            <tr>
-                <td>{{ name }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+<body>
+    <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Ideal Spot</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.ideal_spot }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
