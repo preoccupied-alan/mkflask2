@@ -13,6 +13,9 @@
         function updatePassword() {
             $.getJSON('/securepasspage', function(data){
                 $('#password').text(data.password);
+            }).fail(function() {
+                $('#password').text(''); // Clear the password field on error
+                alert('Failed to retrieve the password. Please try again later.');
             });
         }
 
@@ -21,5 +24,14 @@
     });
     </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
+    <script>
+        $(document).ready(function(){
+            function autoRefresh() {
+                location.reload();
+            }
+
+            setInterval(autoRefresh, 60000); // Auto-refresh every 60 seconds
+        });
+    </script>
 </body>
 </html>
