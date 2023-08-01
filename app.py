@@ -9,37 +9,34 @@ app = Flask(__name__)
 # The password that allows access to the name submission form
 password = ''.join(random.choice(string.ascii_lowercase) for i in range(6))
 
-# Shared password variable accessed by both securepasspage and index.html
-shared_password = password
-
 def update_password():
-    global password, shared_password
+    global password
     password = ''.join(random.choice(string.ascii_lowercase) for i in range(6))
-    shared_password = password  # Update the shared password
     Timer(60, update_password).start()
 
 update_password()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global shared_password  # Use the shared password variable
+    global password
     if request.method == 'POST':
         if 'password' in request.form:
-            return jsonify({'password_correct': request.form['password'] == shared_password})
+            return jsonify({'password_correct': request.form['password'] == password})
         elif 'name' in request.form and request.form['name']:
+            name = request.form['name']
+            ideal_spot = request.form['spot']
             with open('list.json', 'r+') as f:
                 data = json.load(f)
-                data.append({'name': request.form['name'], 'ideal_spot': request.form['ideal_spot']})
-                data.sort(key=lambda x: (x['ideal_spot'], data.index(x)))  # Sort by ideal_spot and insertion order
+                data.append({'name': name, 'spot': int(ideal_spot)})
+                data = sorted(data, key=lambda x: (x['spot'], data.index(x)))
                 f.seek(0)
                 json.dump(data, f)
             return redirect(url_for('member'))
-    return render_template('index.html')
+    return render_template('index.html', password=password)
 
 @app.route('/securepasspage')
 def securepasspage():
-    global shared_password  # Use the shared password variable
-    return render_template('securepasspage.html', password=shared_password)
+    return jsonify({'password': password})
 
 @app.route('/member')
 def member():

@@ -7,7 +7,7 @@
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-    <p id="password">{{ password }}</p>
+    <h1 id="password">{{ password }}</h1>
     <script>
     $(document).ready(function(){
         function updatePassword() {
