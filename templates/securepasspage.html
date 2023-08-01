@@ -1,4 +1,3 @@
-<!-- securepasspage.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +17,6 @@
         }, 15000);
     });
     </script>
-    <img class="qrcode" src="{{url_for('static', filename= 'generatedQrCode.png') }}" alt="QR">
+    <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
 </body>
 </html>
