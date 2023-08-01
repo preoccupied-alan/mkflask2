@@ -26,7 +26,12 @@ def index():
                 return jsonify({'password_correct': True})
             else:
                 return jsonify({'password_correct': False})
-        elif 'name' in request.form and request.form['name']:
+        elif 'name' in request.form and request.form['name'] and 'spot' in request.form and request.form['spot']:
+            try:
+                spot = int(request.form['spot'])
+            except ValueError:
+                return "Invalid spot value. Please enter a valid integer."
+            
             with open('list.json', 'r+') as f:
                 try:
                     data = json.load(f)
@@ -34,7 +39,7 @@ def index():
                     data = []
                 new_member = {
                     'name': request.form['name'],
-                    'spot': int(request.form['spot'])
+                    'spot': spot
                 }
                 data.append(new_member)
                 data.sort(key=lambda x: (x['spot'], data.index(x)))  # Sort by spot and original order
