@@ -10,11 +10,14 @@
     <h1 id="password">{{ password }}</h1>
     <script>
     $(document).ready(function(){
-        setInterval(function(){
+        function updatePassword() {
             $.getJSON('/securepasspage', function(data){
                 $('#password').text(data.password);
             });
-        }, 15000);
+        }
+
+        updatePassword();
+        setInterval(updatePassword, 60000);
     });
     </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
