@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
 import random
@@ -17,31 +16,29 @@ def update_password():
 
 update_password()
 
-def sort_users(data):
-    # Sort the data first by "ideal_spot" in ascending order, and then by the order they arrived in the list
-    return sorted(data, key=lambda x: (x['ideal_spot'], data.index(x)))
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global password
     if request.method == 'POST':
         if 'password' in request.form:
             return jsonify({'password_correct': request.form['password'] == password})
         elif 'name' in request.form and request.form['name']:
-            name = request.form['name']
-            ideal_spot = request.form['ideal_spot']
-            with open('list.json', 'r+') as f:
+            with open('list.json', 'r') as f:
                 data = json.load(f)
-                new_entry = {"name": name, "ideal_spot": ideal_spot, "attended": False}
-                data.append(new_entry)
-                sorted_data = sort_users(data)  # Sort the data
-                f.seek(0)
-                json.dump(sorted_data, f)
+                data.append({
+                    'name': request.form['name'],
+                    'ideal_spot': int(request.form['ideal_spot']),
+                    'attended': False
+                })
+            with open('list.json', 'w') as f:
+                json.dump(data, f)
             return redirect(url_for('member'))
     return render_template('index.html')
 
 @app.route('/securepasspage')
 def securepasspage():
-    return render_template('securepasspage.html', password=password)
+    global password
+    return jsonify({'password': password})
 
 @app.route('/member')
 def member():
@@ -53,10 +50,10 @@ def member():
 def secureadmin():
     if request.method == 'POST':
         if request.form['action'] == 'randomize':
-            with open('list.json', 'r+') as f:
+            with open('list.json', 'r') as f:
                 data = json.load(f)
                 random.shuffle(data)
-                f.seek(0)
+            with open('list.json', 'w') as f:
                 json.dump(data, f)
     with open('list.json', 'r') as f:
         data = json.load(f)
