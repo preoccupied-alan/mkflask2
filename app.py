@@ -40,7 +40,6 @@ def index():
     return render_template('index.html')
 
 
-
 @app.route('/securepasspage')
 def securepasspage():
     return render_template('securepasspage.html', password=password)
