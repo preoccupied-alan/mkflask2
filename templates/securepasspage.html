@@ -3,27 +3,11 @@
 <head>
     <title>Secure Pass Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta http-equiv="refresh" content="60">
 </head>
 <body>
     <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
     <h1 id="password">{{ password }}</h1>
-    <script>
-    $(document).ready(function(){
-        function updatePassword() {
-            $.getJSON('/securepasspage', function(data){
-                $('#password').text(data.password);
-            });
-        }
-
-        function autoRefresh() {
-            setInterval(updatePassword, 60000);
-        }
-
-        // Wait for 5 seconds before starting the auto-refresh to allow time for initial page load
-        setTimeout(autoRefresh, 5000);
-    });
-    </script>
     <img class="url" src="{{ url_for('static', filename='generatedQrCode.png') }}" alt="QR">
 </body>
 </html>
